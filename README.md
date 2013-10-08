@@ -38,6 +38,14 @@ Add you Wix app keys (You can get them by [Creating Wix app via Wix Dev Center](
         application_key: 238cmkd-asdk292-832d-sa33-489aklsd9393
         application_secret: 238cmkd-asdk292-832d-sa33-489aklsd9393
 
+You can create a global provider for your wix app by adding the following configuration to your security.yml :
+
+    security:
+        firewalls:
+            wix_framework:
+                pattern:   /wix/.*
+                stateless: true
+                wix:      true
 What's inside?
 ---------------
 
