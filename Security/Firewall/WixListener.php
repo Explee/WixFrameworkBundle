@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterfac
 use Wix\FrameworkBundle\Security\Authentication\Token\WixToken;
 use Wix\FrameworkComponent\InstanceDecoderInterface;
 
-class WsseListener implements ListenerInterface
+class WixListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
@@ -30,11 +30,20 @@ class WsseListener implements ListenerInterface
         $request = $event->getRequest();
 
         // Check the request
-        $instance = $this->decoder->parse($request->get('instance');
+        try {
+            $instance = $this->decoder->parse($request->get('instance'));
+        } catch (\Exception $error) {
+            $response = new Response();
+            $response->setStatusCode(403);
+            $event->setResponse($response);
+            return;
+        }
+
         if($instance === null){
             $response = new Response();
             $response->setStatusCode(403);
             $event->setResponse($response);
+            return;
         }
 
         $token = new WixToken();

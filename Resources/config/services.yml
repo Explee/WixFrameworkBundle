@@ -27,4 +27,4 @@ services:
 
     wix_framework.security.authentication.listener:
         class:  Wix\FrameworkBundle\Security\Firewall\WixListener
-        arguments: ["@security.context", "@security.authentication.manager"]
+        arguments: ["@security.context", "@security.authentication.manager", "@wix_framework.instance_decoder"]

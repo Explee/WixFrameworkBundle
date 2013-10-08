@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
 
-class WsseFactory implements SecurityFactoryInterface
+class WixFactory implements SecurityFactoryInterface
 {
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
@@ -31,7 +31,7 @@ class WsseFactory implements SecurityFactoryInterface
 
     public function getKey()
     {
-        return 'wix_framework';
+        return 'wix';
     }
 
     public function addConfiguration(NodeDefinition $node)

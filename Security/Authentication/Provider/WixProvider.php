@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Exception\NonceExpiredException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Wix\FrameworkBundle\Security\Authentication\Token\WixToken;
 
-class WsseProvider implements AuthenticationProviderInterface
+class WixProvider implements AuthenticationProviderInterface
 {
     private $userProvider;
     private $cacheDir;
