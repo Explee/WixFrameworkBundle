@@ -21,9 +21,13 @@ services:
         tags:
             - { name: twig.extension }
 
+    wix_framework.sessionHandler:
+        class: Wix\FrameworkBundle\Wix\WixSessionHandler
+        arguments: [%wix_key%, "@session"]
+
     wix_framework.security.authentication.provider:
         class:  Wix\FrameworkBundle\Security\Authentication\Provider\WixProvider
-        arguments: ["", "%kernel.cache_dir%/security/nonces"]
+        arguments: ["", "@security.user_checker", true, "@wix_framework.sessionHandler",]
 
     wix_framework.security.authentication.listener:
         class:  Wix\FrameworkBundle\Security\Firewall\WixListener

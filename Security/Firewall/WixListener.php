@@ -46,8 +46,7 @@ class WixListener implements ListenerInterface
             return;
         }
 
-        $token = new WixToken();
-        $token->instance = $instance;
+        $token = new WixToken($instance, $instance->getUid(), array());
         $token->setUser($instance->getUid());
         try {
             $authToken = $this->authenticationManager->authenticate($token);

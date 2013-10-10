@@ -12,13 +12,13 @@ class WixFactory implements SecurityFactoryInterface
 {
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
-        $providerId = 'security.authentication.provider.wix_framework.'.$id;
+        $providerId = 'security.authentication.provider.wix_framework'.$id;
         $container
             ->setDefinition($providerId, new DefinitionDecorator('wix_framework.security.authentication.provider'))
             ->replaceArgument(0, new Reference($userProvider))
         ;
 
-        $listenerId = 'security.authentication.listener.wix_framework.'.$id;
+        $listenerId = 'security.authentication.listener.wix_framework'.$id;
         $listener = $container->setDefinition($listenerId, new DefinitionDecorator('wix_framework.security.authentication.listener'));
 
         return array($providerId, $listenerId, $defaultEntryPoint);
