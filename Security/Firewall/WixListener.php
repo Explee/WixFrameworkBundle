@@ -5,6 +5,7 @@ namespace Wix\FrameworkBundle\Security\Firewall;
 use Wix\FrameworkBundle\Security\Authentication\Token\WixToken;
 use Wix\FrameworkComponent\InstanceDecoder;
 
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Firewall\AbstractAuthenticationListener;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,8 +13,11 @@ class WixListener extends AbstractAuthenticationListener
 {
     protected function attemptAuthentication(Request $request)
     {
-        var_dump('biboup');exit();
         $instance = $request->get('instance');
+
+        if($instance === null){
+            throw new AuthenticationException('The authentication failed.');
+        }
 
         try{
             $decoder = new InstanceDecoder(array(
@@ -22,7 +26,7 @@ class WixListener extends AbstractAuthenticationListener
                 ));
             $instance = $decoder->parse($instance);
         } catch (\Exception $e) {
-            return null;
+            throw new AuthenticationException('The Wix authentication failed.');
         }
         return $this->authenticationManager->authenticate(new WixToken($instance, $instance->getUid(), array()));
     }
