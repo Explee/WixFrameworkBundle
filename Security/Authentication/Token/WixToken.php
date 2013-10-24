@@ -10,7 +10,7 @@ class WixToken extends AbstractToken
 {
     protected $instance;
 
-    public function __construct(Instance $instance, $uid = '', array $roles = array())
+    public function __construct($instance, $uid = '', array $roles = array())
     {
         parent::__construct($roles);
 

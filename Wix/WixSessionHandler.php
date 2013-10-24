@@ -7,12 +7,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class WixSessionHandler
 {
-    const PREFIX = '_wix_';
+    const PREFIX = '_explee_wix_';
 
     protected $session;
     protected $prefix;
     protected $app_key;
-    protected static $kSupportedKeys = array('state');
+    protected static $kSupportedKeys = array('state', 'user_id');
 
     /**
      * @param array $app_key
@@ -24,8 +24,6 @@ class WixSessionHandler
         $this->session = $session;
         $this->prefix  = $prefix;
         $this->app_key  = $app_key;
-
-
     }
 
     public function establishCSRFTokenState()
@@ -46,6 +44,7 @@ class WixSessionHandler
      */
     protected function setPersistentData($key, $value)
     {
+        var_dump("WixSessionHandler setPersistentData");
         if (!in_array($key, self::$kSupportedKeys)) {
             self::errorLog('Unsupported key passed to setPersistentData.');
 

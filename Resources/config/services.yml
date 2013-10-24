@@ -13,7 +13,7 @@ services:
         class: Wix\FrameworkBundle\DataCollector\DebugToolbar
         arguments: [@wix_framework.instance_decoder, %wix_framework.config.keys%]
         tags:
-            - { name: data_collector, template: "WixFrameworkBundle:Collector:toolbar.html.twig", id: "wix_framework_debug_toolbar" }
+            - { name: data_collector, template: "WixFrameworkBundle:Collector:toolbar.html.twig", id: "wix_debug_toolbar" }
 
     wix_framework.twig:
         class: Wix\FrameworkBundle\Twig\Extension\WixExtension
@@ -27,8 +27,12 @@ services:
 
     wix_framework.security.authentication.provider:
         class:  Wix\FrameworkBundle\Security\Authentication\Provider\WixProvider
-        arguments: ["", "@security.user_checker", true, "@wix_framework.sessionHandler",]
+        arguments: ["", "@security.user_checker", true, "@wix_framework.sessionHandler"]
+        # arguments: ["@wix_framework.sessionHandler", "", "@security.user_checker", true]
+        # public: false
 
     wix_framework.security.authentication.listener:
         class:  Wix\FrameworkBundle\Security\Firewall\WixListener
-        arguments: ["@security.context", "@security.authentication.manager", "@wix_framework.instance_decoder"]
+        parent: security.authentication.listener.abstract
+        abstract: true
+        # arguments: ["@security.context", "@security.authentication.manager", "@security.authentication.session_strategy", "@wix_framework.instance_decoder"]
