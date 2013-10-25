@@ -21,18 +21,11 @@ services:
         tags:
             - { name: twig.extension }
 
-    wix_framework.sessionHandler:
-        class: Wix\FrameworkBundle\Wix\WixSessionHandler
-        arguments: [%wix_key%, "@session"]
-
     wix_framework.security.authentication.provider:
         class:  Wix\FrameworkBundle\Security\Authentication\Provider\WixProvider
-        arguments: ["", "@security.user_checker", true, "@wix_framework.sessionHandler"]
-        # arguments: ["@wix_framework.sessionHandler", "", "@security.user_checker", true]
-        # public: false
+        arguments: ["", "@security.user_checker", true, "@wix_framework.instance_decoder"]
 
     wix_framework.security.authentication.listener:
         class:  Wix\FrameworkBundle\Security\Firewall\WixListener
         parent: security.authentication.listener.abstract
         abstract: true
-        # arguments: ["@security.context", "@security.authentication.manager", "@security.authentication.session_strategy", "@wix_framework.instance_decoder"]

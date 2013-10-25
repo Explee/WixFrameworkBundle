@@ -14,15 +14,16 @@ use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProvid
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 use Wix\FrameworkBundle\Security\Authentication\Token\WixToken;
+use Wix\FrameworkComponent\InstanceDecoder;
 
 class WixProvider implements AuthenticationProviderInterface
 {
-    protected $wix;
     protected $userProvider;
     protected $userChecker;
     protected $createIfNotExists;
+    protected $wixDecoder;
 
-    public function __construct(UserProviderInterface $userProvider = null, UserCheckerInterface $userChecker = null, $createIfNotExists = false, $wix)
+    public function __construct(UserProviderInterface $userProvider = null, UserCheckerInterface $userChecker = null, $createIfNotExists = false, InstanceDecoder $wixDecoder)
     {
         if (null !== $userProvider && null === $userChecker) {
             throw new \InvalidArgumentException('$userChecker cannot be null, if $userProvider is not null.');
@@ -32,16 +33,23 @@ class WixProvider implements AuthenticationProviderInterface
         //     throw new \InvalidArgumentException('The $userProvider must implement UserManagerInterface if $createIfNotExists is true.');
         // }
 
-        $this->wix = $wix;
         $this->userProvider = $userProvider;
         $this->userChecker = $userChecker;
         $this->createIfNotExists = $createIfNotExists;
+        $this->wixDecoder = $wixDecoder;
     }
 
     public function authenticate(TokenInterface $token)
     {
         if (!$this->supports($token)) {
             return null;
+        }
+
+        try{
+            $instance = $this->wixDecoder->parse($token->getInstance());
+            $token = new WixToken($instance, $instance->getUid(), array());
+        } catch (\Exception $e) {
+            throw new AuthenticationException('The Wix authentication failed.');
         }
 
         $user = $token->getUser();
