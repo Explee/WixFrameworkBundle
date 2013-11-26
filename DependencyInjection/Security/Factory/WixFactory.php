@@ -38,20 +38,6 @@ class WixFactory extends AbstractFactory
             ->setDefinition($providerId, new DefinitionDecorator($this->getAuthProviderId()))
             ->replaceArgument(0, new Reference($userProviderId))
         ;
-        // $authProviderId = 'fos_facebook.auth.'.$id;
-
-        // $definition = $container
-        //     ->setDefinition($authProviderId, new DefinitionDecorator('fos_facebook.auth'))
-        //     ->replaceArgument(0, $id);
-
-        // with user provider
-        // if (isset($config['provider'])) {
-        //     $definition
-        //         ->addArgument(new Reference($userProviderId))
-        //         ->addArgument(new Reference('security.user_checker'))
-        //         ->addArgument($config['create_user_if_not_exists'])
-        //     ;
-        // }
 
         return $providerId;
     }
