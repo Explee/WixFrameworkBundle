@@ -5,19 +5,19 @@ services:
 
     wix_framework.controller.listener:
         class: Wix\FrameworkBundle\EventListener\ControllerListener
-        arguments: [@annotation_reader, @wix_framework.instance_decoder]
+        arguments: ['@annotation_reader', '@wix_framework.instance_decoder']
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
     wix_framework.debug_toolbar:
         class: Wix\FrameworkBundle\DataCollector\DebugToolbar
-        arguments: [@wix_framework.instance_decoder, %wix_framework.config.keys%]
+        arguments: ['@wix_framework.instance_decoder', %wix_framework.config.keys%]
         tags:
             - { name: data_collector, template: "WixFrameworkBundle:Collector:toolbar.html.twig", id: "wix_debug_toolbar" }
 
     wix_framework.twig:
         class: Wix\FrameworkBundle\Twig\Extension\WixExtension
-        arguments: [@service_container]
+        arguments: ['@service_container']
         tags:
             - { name: twig.extension }
 
